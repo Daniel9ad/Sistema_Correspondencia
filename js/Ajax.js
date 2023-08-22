@@ -14,27 +14,17 @@ function crearCorrespondencia() {
     ajax.send(parametros);
 }
 
-//function mostrar(id) {
-//    var contenedor = document.getElementById('contenido');
-//    var ajax = new XMLHttpRequest() //crea el objetov ajax 
-//    ajax.open("post", '../mostrar.php?id='+id , true);
+
+//function mostrarC(id) {
+//    console.log('funciona')
+//    var contenedor = document.getElementById('datos');
+//    var ajax = new XMLHttpRequest();
+//    ajax.open("get", '../mostrar.php?id='+id, true);
 //    ajax.onreadystatechange = function () {
 //        if (ajax.readyState == 4) {
 //            contenedor.innerHTML = ajax.responseText;
 //        }
 //    }
+//    ajax.setRequestHeader("Content-Type", "text/html; charset=utf-8");
 //    ajax.send();
 //}
-
-function mostrar(id) {
-    var contenedor = document.getElementById('datos');
-    var ajax = new XMLHttpRequest();
-    ajax.open("get", 'mostrar.php?id='+id, true);
-    ajax.onreadystatechange = function () {
-        if (ajax.readyState == 4) {
-            contenedor.innerHTML = ajax.responseText;
-        }
-    }
-    ajax.setRequestHeader("Content-Type", "text/html; charset=utf-8");
-    ajax.send();
-}

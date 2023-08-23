@@ -1,9 +1,16 @@
 <?php
 $id = $_GET['id'];
 include('conexion.php');
-$sql = "SELECT * from correspondencia where id=$id";
+
+$sql = "SELECT * FROM correspondencia WHERE id=$id";
 $resultado = $con->query($sql);
 $row = $resultado->fetch_assoc();
+
+$sql2 = "SELECT * FROM departa";
+$resultado2 = $con->query($sql2);
+
+$sql3 = "SELECT id,correo,idd FROM usuario WHERE idd='1'";
+$resultado3 = $con->query($sql3);
 
 $remitente = $row['remitente'];
 $destinatario = $row['destinatario'];
@@ -16,7 +23,9 @@ echo "<b>Remitente:</b> $remitente <br> <b>Destinatario:</b> $destinatario <br> 
     <b>Tipo:</b> $tipo <br> <b>Categoria:</b> $categoria <br> <b>Fecha recepcion:</b> $fecha_recepcion <br>";
 echo '<hr class="my-4">';
 ?>
-<form class="needs-validation">
+
+<form class="needs-validation" action="javascript:enviarCorrespondencia('<?php echo $id; ?>')" method="POST"
+    enctype="multipart/form-data" id="form-envio">
     <div class="row g-3">
         <div class="col-sm-12">
             <label for="prioridad" class="form-label">Prioridad:</label>
@@ -33,7 +42,7 @@ echo '<hr class="my-4">';
                 Introdusca un fecha limite
             </div>
         </div>
-
+        <!--
         <div class="col-md-12">
             <label for="como" class="form-label">Como:</label>
             <select class="form-select" name="como" required>
@@ -46,15 +55,15 @@ echo '<hr class="my-4">';
                 Seleccione una forma de envio
             </div>
         </div>
-
+        -->
         <div class="col-md-12">
             <label for="departamento" class="form-label">Departamento:</label>
-            <select class="form-select" name="departamento" required>
-                <option value="">Departamento1</option>
-                <option>Departamento2</option>
-                <option>Departamento3</option>
-                <option>Departamento4</option>
-                <option>Departamento5</option>
+            <select class="form-select" name="departamento" onchange='cargarU()' id="d" required>
+                <?php while ($d = $resultado2->fetch_assoc()) { ?>
+                    <option value="<?php echo $d['id']; ?>">
+                        <?php echo $d['nombre']; ?>
+                    </option>
+                <?php } ?>
             </select>
             <div class="invalid-feedback">
                 Seleccione a que departamento de enviara
@@ -63,11 +72,12 @@ echo '<hr class="my-4">';
 
         <div class="col-md-12">
             <label for="a" class="form-label">A:</label>
-            <select class="form-select" name="a" required>
-                <option value="">Ing 1</option>
-                <option>Dir 1</option>
-                <option>Ing 2</option>
-                <option>Dir 2</option>
+            <select class="form-select" name="a" id="s" required>
+                <?php while ($c = $resultado3->fetch_assoc()) { ?>
+                    <option value="<?php echo $c['id']; ?>">
+                        <?php echo $c['correo']; ?>
+                    </option>
+                <?php } ?>
             </select>
             <div class="invalid-feedback">
                 Seleccione a quien se enviara
@@ -79,3 +89,7 @@ echo '<hr class="my-4">';
     <button class="w-50 btn btn-dark btn-lg" type="submit">Enviar</button>
     <hr class="my-4">
 </form>
+
+<?php
+$con->close();
+?>

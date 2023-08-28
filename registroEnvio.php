@@ -6,10 +6,10 @@ $sql = "SELECT * FROM correspondencia WHERE id=$id";
 $resultado = $con->query($sql);
 $row = $resultado->fetch_assoc();
 
-$sql2 = "SELECT * FROM departa";
+$sql2 = "SELECT * FROM categoria";
 $resultado2 = $con->query($sql2);
 
-$sql3 = "SELECT id,correo,idd FROM usuario WHERE idd='1'";
+$sql3 = "SELECT id,correo,idc FROM usuario WHERE idc='1'";
 $resultado3 = $con->query($sql3);
 
 $remitente = $row['remitente'];
@@ -20,7 +20,7 @@ $categoria = $row['categoria'];
 $fecha_recepcion = $row['fecha_recepcion'];
 echo '<hr class="my-4">';
 echo "<b>Remitente:</b> $remitente <br> <b>Destinatario:</b> $destinatario <br> <b>Asunto:</b> $asunto <br>
-    <b>Tipo:</b> $tipo <br> <b>Categoria:</b> $categoria <br> <b>Fecha recepcion:</b> $fecha_recepcion <br>";
+    <b>Tipo:</b> $tipo <br> <b>Fecha recepcion:</b> $fecha_recepcion <br>";
 echo '<hr class="my-4">';
 ?>
 
@@ -42,31 +42,17 @@ echo '<hr class="my-4">';
                 Introdusca un fecha limite
             </div>
         </div>
-        <!--
         <div class="col-md-12">
-            <label for="como" class="form-label">Como:</label>
-            <select class="form-select" name="como" required>
-                <option value="">carta</option>
-                <option>memorando</option>
-                <option>correo</option>
-                <option>paquete</option>
-            </select>
-            <div class="invalid-feedback">
-                Seleccione una forma de envio
-            </div>
-        </div>
-        -->
-        <div class="col-md-12">
-            <label for="departamento" class="form-label">Departamento:</label>
-            <select class="form-select" name="departamento" onchange='cargarU()' id="d" required>
-                <?php while ($d = $resultado2->fetch_assoc()) { ?>
-                    <option value="<?php echo $d['id']; ?>">
-                        <?php echo $d['nombre']; ?>
+            <label for="categoria" class="form-label">Categoria:</label>
+            <select class="form-select" name="categoria" onchange='cargarU()' id="d" required>
+                <?php while ($c = $resultado2->fetch_assoc()) { ?>
+                    <option value="<?php echo $c['id']; ?>">
+                        <?php echo $c['nombre']; ?>
                     </option>
                 <?php } ?>
             </select>
             <div class="invalid-feedback">
-                Seleccione a que departamento de enviara
+                Seleccione una categoria
             </div>
         </div>
 

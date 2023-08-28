@@ -72,7 +72,6 @@ $resultado = $con->query($sql);
 							<th scope="Remitente">Remitente</th>
 							<th scope="Destinatario">Destinatario</th>
 							<th scope="Tipo">Tipo</th>
-							<th scope="Categoria">Categoria</th>
 							<th scope="Estado">Estado</th>
                             <th scope="Accion">Accion</th>
 						</tr>
@@ -84,7 +83,6 @@ $resultado = $con->query($sql);
 					    		<td><?php echo $row['remitente'] ?></td>
 					    		<td><?php echo $row['destinatario'] ?></td>
 					    		<td><?php echo $row['tipo'] ?></td>
-                                <td><?php echo $row['categoria'] ?></td>
 								<?php if ($row['estado']=='En proceso'){?>
 									<td style="color: #FF7D96"><b><?php echo $row['estado'] ?></b></td>
 								<?php }else if ($row['estado']=='Enviado'){ ?>
@@ -95,7 +93,7 @@ $resultado = $con->query($sql);
 								<?php if ($row['estado']=='En proceso'){?>
 									<td><button class="btn btn-outline-secondary d-inline-flex align-items-center"
 									style="padding: 0.5px 4px 0.5px 4px; font-size: 0.8rem;"
-									onclick="mostrar('<?php echo $row['id'];?>')">
+									onclick="mostrarRE('<?php echo $row['id'];?>')">
 									<b>Enviar</b></button></td>
 								<?php }else{ ?>
 									<td>-</td>
@@ -108,10 +106,10 @@ $resultado = $con->query($sql);
 		</div>
 	</main>
 	<script>
-		function mostrar(id) {
+		function mostrarRE(id) {
     		var contenedor = document.getElementById('contenido');
     		var ajax = new XMLHttpRequest() //crea el objetov ajax 
-    		ajax.open("get", 'mostrarCorres.php?id='+id , true);
+    		ajax.open("get", 'registroEnvio.php?id='+id , true);
     		ajax.onreadystatechange = function () {
     		    if (ajax.readyState == 4) {
     		        contenedor.innerHTML = ajax.responseText;

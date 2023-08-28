@@ -1,7 +1,7 @@
 <?php
 include('conexion.php');
 $id = $_GET['id'];
-$sql = "SELECT * FROM usuario WHERE idd=$id";
+$sql = "SELECT * FROM usuario WHERE idc=$id";
 $resultado = $con->query($sql);
 ?>
 <?php

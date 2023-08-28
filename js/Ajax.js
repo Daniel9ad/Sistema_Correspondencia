@@ -2,8 +2,6 @@ function crearCorrespondencia() {
     var contenedor = document.getElementById('notificacion');
     var formulario = document.getElementById("form-correspondencia");
     var parametros = new FormData(formulario);
-    //f=new FormData();
-    //f.add
     var ajax = new XMLHttpRequest() //crea el objetov ajax 
     ajax.open("post", 'create.php' , true);
     ajax.onreadystatechange = function () {

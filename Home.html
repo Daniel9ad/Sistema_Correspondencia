@@ -32,7 +32,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="registro.html" class="nav-link text-white btn btn-dark">
+                        <a href="registro.php" class="nav-link text-white btn btn-dark">
                             <svg class="bi d-block mx-auto mb-1" 
                                 width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M0 .5A.5.5 0 0 1 .5 0h4a.5.5 0 0 1 0 1h-4A.5.5 0 0 1 0 .5Zm0 2A.5.5 0 0 1 .5 2h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm9 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm-9 2A.5.5 0 0 1 .5 4h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Zm5 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm7 0a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Zm-12 2A.5.5 0 0 1 .5 6h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5Zm8 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm-8 2A.5.5 0 0 1 .5 8h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm7 0a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm-7 2a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Z"/>
@@ -53,6 +53,35 @@
             </div>
         </div>
     </header>
+
+    <main class="container mt-5">
+        <select class="form-select" aria-label="Default select example" onchange='iniciar()' id="us">
+            <option selected>Usuarios</option>
+            <option value="1">Autoridad1</option>
+            <option value="2">Autoridad2</option>
+            <option value="3">Autoridad3</option>
+            <option value="4">Autoridad4</option>
+            <option value="5">Secretaria</option>
+        </select>
+    </main>
+    <script src="js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function iniciar() {
+            var id = document.getElementById('us').value
+    		var contenedor = document.getElementById('contenido');
+    		var ajax = new XMLHttpRequest() //crea el objetov ajax 
+    		ajax.open("get", 'inicializar.php?id='+id , true);
+    		//ajax.onreadystatechange = function () {
+    		//    if (ajax.readyState == 4) {
+    		//        contenedor.innerHTML = ajax.responseText;
+    		//    }
+    		//}
+    		ajax.setRequestHeader("Content-Type", "text/html; charset=utf-8");
+	  		ajax.send();
+		}
+    </script>
+
 </body>
 
 </html>

@@ -1,15 +1,24 @@
 <?php
+session_start();
+$id = $_SESSION['id'];
+$cargo = $_SESSION['cargo'];
 
-$remitente = $_POST['remitente'];
+include('conexion.php');
+if ($cargo=='sec'){
+    $remitente = $_POST['remitente'];
+}else{
+    $s = "SELECT nombre FROM usuario WHERE id=$id";
+    $resultado = $con->query($s);
+    $row = $resultado->fetch_assoc();
+    $remitente = $row['nombre'];
+}
 $destinatario = $_POST['destinatario'];
 $asunto = $_POST['asunto'];
 $tipo = $_POST['tipo'];
 $fecha_recepcion = date("Y-m-d");
 
-include('conexion.php');
-
-$sql = "INSERT INTO correspondencia(remitente,destinatario,asunto,tipo,fecha_recepcion,estado)
-VALUES ('$remitente','$destinatario','$asunto','$tipo','$fecha_recepcion','En proceso')";
+$sql = "INSERT INTO correspondencia(remitente,destinatario,asunto,tipo,fecha_recepcion,registro,estado)
+VALUES ('$remitente','$destinatario','$asunto','$tipo','$fecha_recepcion',$id,'En proceso')";
 
 if ($con->query($sql) === TRUE) {
     echo '<hr class="my-4">';

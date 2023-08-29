@@ -1,6 +1,14 @@
 <?php
+session_start();
+$id = $_SESSION['id'];
+$cargo = $_SESSION['cargo'];
 include('conexion.php');
-$sql = "SELECT * FROM correspondencia";
+
+if ($cargo=='au'){
+	$sql = "SELECT * FROM correspondencia WHERE registro=$id";
+}else{
+	$sql = "SELECT * FROM correspondencia";
+}
 $resultado = $con->query($sql);
 ?>
 
@@ -37,7 +45,7 @@ $resultado = $con->query($sql);
                         </a>
                     </li>
                     <li>
-                        <a href="registro.html" class="nav-link text-white btn btn-dark">
+                        <a href="registro.php" class="nav-link text-white btn btn-dark">
                             <svg class="bi d-block mx-auto mb-1" 
                                 width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M0 .5A.5.5 0 0 1 .5 0h4a.5.5 0 0 1 0 1h-4A.5.5 0 0 1 0 .5Zm0 2A.5.5 0 0 1 .5 2h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm9 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm-9 2A.5.5 0 0 1 .5 4h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Zm5 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm7 0a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Zm-12 2A.5.5 0 0 1 .5 6h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5Zm8 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm-8 2A.5.5 0 0 1 .5 8h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm7 0a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm-7 2a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Z"/>
@@ -61,43 +69,65 @@ $resultado = $con->query($sql);
 
 	<main class="container pt-5">
 		<div class="row g-5">
-			<div id="contenido" style="background-color: white;"
-			class="col-md-5 col-lg-4 order-md-last"></div>
+			<?php if ($cargo=='sec') {?>
+				<div id="contenido" style="background-color: white;"
+				class="col-md-5 col-lg-4 order-md-last"></div>
+			<?php } ?>
 			<div class="col-md-7 col-lg-8 table-responsive small">
 				<h2>Correspondencias</h2>
-				<table class="table table-striped table-sm">
+				<?php if ($cargo=='au') {?>
+					<div class="d-flex flex-shrink-0 bg-body-tertiary" style="width: 280px;">
+    					<ul class="nav nav-pills mb-auto">
+    					  <li class="nav-item">
+    					    <a href="javascript:actualizarC('1')" class="btn btn-dark active" id='c1'>
+    					      Creados
+    					    </a>
+    					  </li>
+    					  <li>
+    					    <a href="javascript:actualizarC('2')" class="nav-link link-body-emphasis" id='c2'>
+    					      Resividos
+    					    </a>
+    					  </li>
+    					</ul>
+					</div>
+				<?php } ?>
+				<table class="table table-striped table-sm table-hover mt-3">
 					<thead>
 						<tr>
 							<th scope="col">#</th>
 							<th scope="Remitente">Remitente</th>
 							<th scope="Destinatario">Destinatario</th>
 							<th scope="Tipo">Tipo</th>
-							<th scope="Estado">Estado</th>
-                            <th scope="Accion">Accion</th>
+							<?php if ($cargo=='sec') { ?>
+								<th scope="Estado">Estado</th>
+                            	<th scope="Accion">Accion</th>
+							<?php } ?>
 						</tr>
 					</thead>
 					<tbody id='corres'>
                         <?php while ($row = $resultado->fetch_assoc()) {?>
-					    	<tr >
+					    	<tr>
 					    		<td><?php echo $row['id'] ?></td>
 					    		<td><?php echo $row['remitente'] ?></td>
 					    		<td><?php echo $row['destinatario'] ?></td>
 					    		<td><?php echo $row['tipo'] ?></td>
-								<?php if ($row['estado']=='En proceso'){?>
-									<td style="color: #FF7D96"><b><?php echo $row['estado'] ?></b></td>
-								<?php }else if ($row['estado']=='Enviado'){ ?>
-									<td style="color: #4EF46A"><b><?php echo $row['estado'] ?></b></td>
-								<?php }else{ ?>
-									<td><b><?php echo $row['estado'] ?></b></td>
-								<?php }?>
-								<?php if ($row['estado']=='En proceso'){?>
-									<td><button class="btn btn-outline-secondary d-inline-flex align-items-center"
-									style="padding: 0.5px 4px 0.5px 4px; font-size: 0.8rem;"
-									onclick="mostrarRE('<?php echo $row['id'];?>')">
-									<b>Enviar</b></button></td>
-								<?php }else{ ?>
-									<td>-</td>
-								<?php }?>
+								<?php if ($cargo=='sec') { ?>
+									<?php if ($row['estado']=='En proceso'){?>
+										<td style="color: #9CC8D9"><b><?php echo $row['estado'] ?></b></td>
+									<?php }else if ($row['estado']=='Enviado'){ ?>
+										<td style="color: #7DBF1B"><b><?php echo $row['estado'] ?></b></td>
+									<?php }else{ ?>
+										<td><b><?php echo $row['estado'] ?></b></td>
+									<?php }?>
+									<?php if ($row['estado']=='En proceso'){?>
+										<td><button class="btn btn-outline-secondary d-inline-flex align-items-center"
+										style="padding: 0.5px 4px 0.5px 4px; font-size: 0.8rem;"
+										onclick="mostrarRE('<?php echo $row['id'];?>')">
+										<b>Enviar</b></button></td>
+									<?php }else{ ?>
+										<td>-</td>
+									<?php }?>
+								<?php } ?>
 					    	</tr>
                         <?php } ?>
 					</tbody>
@@ -147,14 +177,24 @@ $resultado = $con->query($sql);
     		    }
     		}
     		ajax.send(parametros);
-			actualizarC()
+			actualizarC('3');
 		}
 
-		function actualizarC() {
-			console.log('actualizando...');
+		function actualizarC(c) {
+			// Modifica los botones
+			if (c=='1'){
+				document.getElementById('c1').className = 'btn btn-dark active';
+				document.getElementById('c2').className = 'nav-link link-body-emphasis';
+			}else if (c=='2'){
+				document.getElementById('c2').className = 'btn btn-dark active';
+				document.getElementById('c1').className = 'nav-link link-body-emphasis';
+			}else{
+				c = '1';
+			}
+
     		var contenedor = document.getElementById('corres');
     		var ajax = new XMLHttpRequest()
-    		ajax.open("get", 'acc.php' , true);
+    		ajax.open("get", 'acc.php?c='+c , true);
     		ajax.onreadystatechange = function () {
     		    if (ajax.readyState == 4) {
     		        contenedor.innerHTML = ajax.responseText;

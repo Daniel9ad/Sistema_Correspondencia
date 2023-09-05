@@ -189,6 +189,7 @@ $resultado = $con->query($sql);
 				document.getElementById('c2').className = 'btn btn-dark active';
 				document.getElementById('c1').className = 'nav-link link-body-emphasis';
 			}else{
+				console.log('Actulizar despues de envio');
 				c = '1';
 			}
 
